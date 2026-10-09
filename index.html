@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Orin Fenn: a jellyfish floating through the sea of life. Bots, worlds, commissions, and profile links.">
+<title>Orin Fenn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<!--
+  ORIN FENN: LINK HUB
+  EDIT HERE
+  - Links: the Janitor AI row in #find. Add more <a class="row"> rows there.
+  - Copy: all text lives in the sections below.
+  - Images: img/ folder.
+-->
+<style>
+  /* Layout: full-bleed deep-sea hero, then a descent. Who is a two-column spread,
+     the rest are single-column ledgers and notes. Depth marks are computed from scroll position. */
+  :root {
+    --ink: #0d1a22;
+    --panel: #132733;
+    --panel-a: rgba(19, 39, 51, 0.86);
+    --brass: #c9a96a;
+    --paper: #e8dcc2;
+    --ember: #d9825b;
+    --teal: #8fa8a6;
+    --display: 'Marcellus SC', Palatino, 'Palatino Linotype', Georgia, serif;
+    --body: 'Spectral', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--body);
+    font-size: 1.08rem;
+    line-height: 1.7;
+    padding-inline: 1rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, .mascot:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; }
+
+  .wrap { max-width: 1080px; margin-inline: auto; position: relative; z-index: 2; }
+
+  /* ---------- Ambient layers ---------- */
+  .rays, .bubbles {
+    position: fixed; inset: 0; z-index: 1; overflow: hidden; pointer-events: none;
+  }
+  .rays { mix-blend-mode: screen; }
+  .rays span {
+    position: absolute; top: -15%; height: 130%;
+    background: linear-gradient(180deg, rgba(150,175,255,.2) 0%, rgba(150,175,255,.06) 55%, rgba(150,175,255,0) 100%);
+    transform-origin: top center; filter: blur(10px); opacity: .35;
+    animation: ray 9s ease-in-out infinite;
+  }
+  .rays span:nth-child(1) { left: 6%;  width: 7%;  transform: rotate(-16deg); }
+  .rays span:nth-child(2) { left: 24%; width: 12%; transform: rotate(-16deg); animation-delay: -2.2s; }
+  .rays span:nth-child(3) { left: 46%; width: 8%;  transform: rotate(-14deg); animation-delay: -4.5s; }
+  .rays span:nth-child(4) { left: 66%; width: 13%; transform: rotate(-17deg); animation-delay: -6.7s; }
+  .rays span:nth-child(5) { left: 84%; width: 9%;  transform: rotate(-15deg); animation-delay: -3.3s; }
+
+  .bubbles span {
+    position: absolute; bottom: -24px; border-radius: 50%; opacity: 0;
+    border: 1px solid rgba(143,168,166,.5);
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.3), rgba(143,168,166,.05) 45%, rgba(143,168,166,0) 70%);
+    animation: rise 16s linear infinite;
+  }
+  .bubbles span:nth-child(odd) { animation-duration: 12s; }
+  .bubbles span:nth-child(1) { left: 6%;  width: 8px;  height: 8px; }
+  .bubbles span:nth-child(2) { left: 15%; width: 5px;  height: 5px;  animation-delay: 2.5s; }
+  .bubbles span:nth-child(3) { left: 27%; width: 12px; height: 12px; animation-delay: 5.5s; }
+  .bubbles span:nth-child(4) { left: 38%; width: 7px;  height: 7px;  animation-delay: 3.5s; }
+  .bubbles span:nth-child(5) { left: 51%; width: 10px; height: 10px; animation-delay: 8s; }
+  .bubbles span:nth-child(6) { left: 63%; width: 5px;  height: 5px;  animation-delay: 1.2s; }
+  .bubbles span:nth-child(7) { left: 74%; width: 14px; height: 14px; animation-delay: 4.4s; }
+  .bubbles span:nth-child(8) { left: 85%; width: 6px;  height: 6px;  animation-delay: 9s; }
+  .bubbles span:nth-child(9) { left: 94%; width: 9px;  height: 9px;  animation-delay: 1.8s; }
+
+  @keyframes ray { 0%, 100% { opacity: .12; } 50% { opacity: .5; } }
+  @keyframes rise {
+    0% { transform: translate(0,0); opacity: 0; }
+    10% { opacity: .8; }
+    35% { transform: translate(8px,-40vh); }
+    65% { transform: translate(-8px,-80vh); }
+    100% { transform: translate(0,-115vh); opacity: 0; }
+  }
+
+  /* ---------- Top bar ---------- */
+  .bar {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    margin: .75rem auto 0; max-width: 1080px;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem;
+    padding: .55rem 1rem;
+    background: var(--panel-a);
+    border: 3px double var(--brass);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  }
+  .bar .name { font-family: var(--display); letter-spacing: 3px; color: var(--brass); text-decoration: none; font-size: 1.15rem; }
+  .bar nav { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+  .bar nav a {
+    font-family: var(--display); letter-spacing: 2px; text-decoration: none; font-size: .98rem;
+    padding: .2rem 0; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s;
+  }
+  .bar nav a:hover { color: var(--ember); border-color: var(--ember); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; z-index: 2;
+    margin: -3.6rem -1rem 0;
+    padding: 6.5rem 1rem 3rem;
+    background:
+      linear-gradient(180deg, rgba(13,26,34,.45) 0%, rgba(13,26,34,.55) 55%, var(--ink) 100%),
+      url('img/scene.webp') center 30% / cover no-repeat;
+  }
+  .hero-inner { max-width: 1080px; margin-inline: auto; display: grid; justify-items: center; gap: 1.1rem; text-align: center; }
+  .hero-logo { width: min(560px, 100%); height: auto; filter: drop-shadow(0 0 24px rgba(217,130,91,.35)); }
+  .hero p.line { margin: 0; font-style: italic; font-size: 1.3rem; max-width: 34ch; color: var(--paper); }
+  .hero .ctas { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: .5rem; }
+
+  .btn {
+    display: inline-block; padding: .55rem 1.6rem;
+    font-family: var(--display); letter-spacing: 2px; text-decoration: none; font-size: 1rem;
+    border: 1px solid var(--brass); color: var(--paper); background: transparent;
+    transition: background-color .2s, color .2s, box-shadow .2s;
+  }
+  .btn:hover { background: var(--panel); box-shadow: 0 0 12px rgba(201,169,106,.3); }
+  .btn.solid { background: var(--brass); color: var(--ink); }
+  .btn.solid:hover { background: var(--ember); border-color: var(--ember); box-shadow: 0 0 14px rgba(217,130,91,.5); }
+
+  /* ---------- Sections ---------- */
+  section { padding-block: 3rem 2rem; scroll-margin-top: 5rem; }
+
+  .depth-mark {
+    display: flex; align-items: center; gap: .75rem;
+    font-family: var(--display); letter-spacing: 3px; font-size: .85rem; color: var(--teal);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 1rem;
+  }
+  .depth-mark::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(143,168,166,.6), rgba(143,168,166,0)); }
+
+  h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); letter-spacing: 3px; color: var(--brass); margin-bottom: 1.5rem; }
+  h3 { font-size: 1.25rem; letter-spacing: 2px; color: var(--brass); margin: 2rem 0 .75rem; }
+
+  .divider { display: block; width: min(420px, 80%); height: auto; margin: 0 auto 1.25rem; opacity: .95; }
+
+  p { margin: 0 0 1rem; max-width: 62ch; }
+  p.aside { font-style: italic; color: var(--teal); }
+
+  /* Who */
+  .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 2.5rem; align-items: start; }
+  .portrait {
+    border: 4px double var(--brass); outline: 1px solid var(--brass); outline-offset: 6px;
+    background: var(--panel); margin: 6px;
+    box-shadow: 0 0 30px rgba(217,130,91,.22);
+  }
+  .portrait img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; }
+  .portrait figcaption {
+    padding: .6rem .9rem; border-top: 1px solid var(--brass);
+    font-family: var(--display); letter-spacing: 2px; font-size: .9rem; color: var(--teal);
+  }
+  .portrait figcaption i { font-family: var(--body); letter-spacing: 0; font-size: 1rem; color: var(--paper); }
+  .about-text p.big { font-size: 1.35rem; line-height: 1.5; }
+
+  /* Discord line */
+  .handle-line { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; margin-top: 1.25rem; }
+  .handle-line .tag { font-family: var(--display); letter-spacing: 2px; font-size: 1.15rem; color: var(--brass); }
+
+  /* Links ledger */
+  .ledger { border-top: 3px double var(--brass); margin-top: 1.5rem; }
+  .row {
+    display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) auto; gap: .25rem 1.5rem; align-items: baseline;
+    padding: 1rem .5rem; text-decoration: none; width: 100%;
+    background: none; border: 0; border-bottom: 1px solid rgba(201,169,106,.3);
+    font: inherit; color: inherit; text-align: left; cursor: pointer;
+    transition: background-color .2s, padding-left .25s;
+  }
+  .row:hover { background: rgba(19,39,51,.8); padding-left: 1rem; }
+  .row .site { font-family: var(--display); letter-spacing: 2px; font-size: 1.2rem; color: var(--brass); }
+  .row .what { color: var(--paper); }
+  .row .arrow { font-family: var(--display); letter-spacing: 2px; color: var(--teal); font-size: .9rem; white-space: nowrap; }
+  .row:hover .site, .row:hover .arrow { color: var(--ember); }
+
+  /* Facts */
+  dl.facts { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0 2rem; border-top: 3px double var(--brass); }
+  dl.facts dt, dl.facts dd { padding: .8rem 0; border-bottom: 1px solid rgba(201,169,106,.25); margin: 0; }
+  dl.facts dt { font-family: var(--display); letter-spacing: 2px; color: var(--brass); font-size: .95rem; padding-top: .95rem; }
+  dl.facts dd { max-width: 62ch; }
+  dl.facts dt.warn, dl.facts dd.warn { color: var(--ember); }
+
+  /* Final word */
+  .final blockquote {
+    margin: 0; padding: 2rem 1.75rem; max-width: 40rem;
+    background: var(--panel-a); border: 4px double var(--brass); outline: 1px solid var(--brass); outline-offset: 6px;
+  }
+  .final blockquote p { font-size: 1.4rem; line-height: 1.5; font-style: italic; margin-bottom: 1rem; }
+  .final blockquote footer { padding: 0; text-align: left; font-family: var(--display); letter-spacing: 3px; color: var(--brass); }
+  .final blockquote footer::before { content: "\25C6  "; color: var(--ember); font-size: .7em; }
+
+  /* Footer */
+  .site-foot { padding-block: 2.5rem 2.5rem; text-align: center; }
+  .site-foot p { margin: 0 auto .75rem; max-width: 52ch; font-size: .92rem; color: var(--teal); }
+  .site-foot .mark { font-family: var(--display); letter-spacing: 3px; color: var(--brass); margin-bottom: .5rem; font-size: 1rem; }
+  .site-foot .credit { font-family: var(--display); letter-spacing: 2px; font-size: .85rem; color: var(--paper); opacity: .8; margin: 1.25rem auto 0; padding-top: 1rem; border-top: 1px solid rgba(201,169,106,.25); }
+
+  /* ---------- Mascot ---------- */
+  .mascot-wrap {
+    position: fixed; left: clamp(4px, 1vw, 16px); bottom: 0; z-index: 4;
+    width: clamp(80px, 10vw, 140px); aspect-ratio: 640 / 674;
+    pointer-events: none;
+  }
+  .mascot {
+    position: absolute; inset: 0; pointer-events: auto; cursor: pointer;
+    background: url('img/jelly.webp') left bottom / contain no-repeat;
+    filter: drop-shadow(0 0 14px rgba(217,130,91,.35));
+    transition: filter .3s;
+    animation: float 7s ease-in-out infinite;
+  }
+  .mascot-wrap:hover .mascot, .mascot:focus-visible { filter: drop-shadow(0 0 26px rgba(217,130,91,.65)); }
+  .say {
+    position: absolute; left: calc(100% + 12px); bottom: 45%; width: max-content; max-width: min(240px, calc(100vw - 180px));
+    padding: .65rem 1rem; background: var(--panel); border: 3px double var(--brass);
+    box-shadow: 0 0 18px rgba(217,130,91,.25);
+    font-size: .98rem; line-height: 1.4; color: var(--paper);
+    opacity: 0; transform: translateX(-8px);
+  }
+  .say::before, .say::after { content: ""; position: absolute; top: 50%; border-style: solid; border-color: transparent; border-left-width: 0; }
+  .say::before { left: -14px; margin-top: -11px; border-width: 11px 11px 11px 0; border-right-color: var(--brass); }
+  .say::after { left: -9px; margin-top: -9px; border-width: 9px 9px 9px 0; border-right-color: var(--panel); }
+  .mascot-wrap:hover .say, .mascot-wrap:focus-within .say { animation: speak 6.4s ease-in-out infinite; }
+  .say.s2 { animation-delay: 1.6s !important; }
+  .say.s3 { animation-delay: 3.2s !important; }
+  .say.s4 { animation-delay: 4.8s !important; }
+  @keyframes speak {
+    0% { opacity: 0; transform: translateX(-8px) scale(.96); }
+    3%, 22% { opacity: 1; transform: none; }
+    25%, 100% { opacity: 0; transform: translateX(6px) scale(.98); }
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+
+  /* Depth gauge */
+  .gauge {
+    position: fixed; right: max(.75rem, env(safe-area-inset-right, 0px)); bottom: calc(.75rem + env(safe-area-inset-bottom, 0px)); z-index: 6;
+    padding: .3rem .8rem; background: var(--panel-a); border: 1px solid var(--brass);
+    font-family: var(--display); letter-spacing: 2px; font-size: .85rem; color: var(--paper);
+    font-variant-numeric: tabular-nums; pointer-events: none;
+  }
+  .gauge b { font-weight: 400; color: var(--ember); }
+
+  /* ---------- Small screens ---------- */
+  @media (max-width: 760px) {
+    .about { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+    .portrait { max-width: 420px; }
+    .row { grid-template-columns: minmax(0, 1fr) auto; }
+    .row .what { grid-column: 1 / -1; grid-row: 2; }
+    dl.facts { grid-template-columns: minmax(0, 1fr); }
+    dl.facts dt { border-bottom: 0; padding-bottom: 0; }
+    dl.facts dd { padding-top: .2rem; }
+    .mascot-wrap { display: none; }
+    .hero { padding-top: 7rem; }
+    .site-foot { padding-bottom: 4.5rem; }
+  }
+  @media (max-width: 480px) {
+    .bar { justify-content: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rays span, .bubbles span, .mascot { animation: none; }
+    .rays span { opacity: .22; }
+    .bubbles { display: none; }
+    .row, .btn { transition: none; }
+    .mascot-wrap:hover .say.s1, .mascot-wrap:focus-within .say.s1 { animation: none; opacity: 1; transform: none; }
+    .mascot-wrap:hover .say:not(.s1), .mascot-wrap:focus-within .say:not(.s1) { display: none; }
+  }
+</style>
+<style>html { color-scheme: dark; } body { margin: 0; } img { max-width: 100%; }</style>
+</head>
+<body>
+
+<div class="rays" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+<div class="bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<div class="mascot-wrap">
+  <div class="mascot" tabindex="0" role="img" aria-label="A glowing jellyfish that whispers when you hover over it"></div>
+  <div class="say s1">Stay close. It gets quieter down here.</div>
+  <div class="say s2">I'm only a little dangerous.</div>
+  <div class="say s3">Breathe when I breathe.</div>
+  <div class="say s4">Follow the light.</div>
+</div>
+
+<div class="gauge" aria-hidden="true">Depth <b id="depth">0</b> m</div>
+
+<header class="bar">
+  <a class="name" href="#top">Orin Fenn</a>
+  <nav aria-label="Sections">
+    <a href="#who">Who</a>
+    <a href="#create">Create</a>
+    <a href="#find">Find Me</a>
+    <a href="#facts">Facts</a>
+  </nav>
+</header>
+
+<div class="hero" id="top">
+  <div class="hero-inner">
+    <img class="hero-logo" src="img/orin-logo.webp" alt="Orin Fenn" width="1000" height="716">
+    <p class="line">a jellyfish floating through the sea of life</p>
+    <div class="ctas">
+      <a class="btn solid" href="#find">Find Me</a>
+      <a class="btn" href="#create">Commissions</a>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section id="who">
+    <div class="depth-mark" data-mark>200 m</div>
+    <h2>Who Is Orin Fenn?</h2>
+    <div class="about">
+      <figure class="portrait" style="margin: 6px;">
+        <img src="img/orin-portrait.webp" alt="Orin Fenn drifting between glowing jellyfish in a dark coral canyon" width="1024" height="1024">
+        <figcaption><i>Chrysaora fuscescens</i> &middot; Pacific sea nettle</figcaption>
+      </figure>
+      <div class="about-text">
+        <p class="big">happy as a clam when creating bots and worlds.</p>
+        <p class="aside">interact with caution. my creations sting.</p>
+      </div>
+    </div>
+  </section>
+
+  <img class="divider" src="img/divider.webp" alt="" width="1600" height="398">
+
+  <section id="create">
+    <div class="depth-mark" data-mark>900 m</div>
+    <h2>What I Create</h2>
+    <p>i am willing to make anything that does not violate ToS.</p>
+    <p class="aside">anything except underage, bestiality, and full-blood relations.</p>
+
+    <h3>Commissions</h3>
+    <p>i do commissions for saucepan or janitor homepages and HTML templates.</p>
+    <p class="aside">want to see examples or talk pricing? DM me on Discord.</p>
+    <div class="handle-line">
+      <span class="tag" id="handle">@orinfenn</span>
+      <button type="button" class="btn" id="copy-handle">Copy</button>
+    </div>
+  </section>
+
+  <img class="divider" src="img/divider.webp" alt="" width="1600" height="398" loading="lazy">
+
+  <section id="find">
+    <div class="depth-mark" data-mark>1,800 m</div>
+    <h2>Where To Find Me</h2>
+    <p>check out my profiles and see which seas i swim in.</p>
+    <p class="aside">or DM me on Discord @orinfenn.</p>
+    <div class="ledger">
+      <a class="row" href="https://saucepan.ai/u/OrinFenn" target="_blank" rel="noopener">
+        <span class="site">Saucepan</span>
+        <span class="what">Profile with companions, lorebooks, and posts</span>
+        <span class="arrow">Visit &#9670;</span>
+      </a>
+      <a class="row" href="https://janitorai.com/profiles/1c93754f-777e-4f43-a5e8-dfc92611ac00_profile-of-orin-fenn" target="_blank" rel="noopener">
+        <span class="site">Janitor AI</span>
+        <span class="what">Profile of @OrinFenn</span>
+        <span class="arrow">Visit &#9670;</span>
+      </a>
+      <a class="row" href="https://crushon.ai/en/profile/a4281d82-bfb5-11f1-ab44-6ae98ac2d7e3?shared=true" target="_blank" rel="noopener">
+        <span class="site">CrushOn AI</span>
+        <span class="what">Profile</span>
+        <span class="arrow">Visit &#9670;</span>
+      </a>
+      <a class="row" href="https://tipsy.chat/profile/1791092766651871038" target="_blank" rel="noopener">
+        <span class="site">TipsyChat</span>
+        <span class="what">Profile</span>
+        <span class="arrow">Visit &#9670;</span>
+      </a>
+      <a class="row" href="https://craveu.ai/user/VfBQEVOX" target="_blank" rel="noopener">
+        <span class="site">CraveU</span>
+        <span class="what">Profile</span>
+        <span class="arrow">Visit &#9670;</span>
+      </a>
+      <a class="row" href="https://linkin.love/creator/orinfenn" target="_blank" rel="noopener">
+        <span class="site">linkin.love</span>
+        <span class="what">Creator page</span>
+        <span class="arrow">Visit &#9670;</span>
+      </a>
+      <a class="row" href="https://ko-fi.com/orinfenn" target="_blank" rel="noopener">
+        <span class="site">Ko-fi</span>
+        <span class="what">Support Orin's work</span>
+        <span class="arrow">Visit &#9670;</span>
+      </a>
+    </div>
+  </section>
+
+  <img class="divider" src="img/divider.webp" alt="" width="1600" height="398" loading="lazy">
+
+  <section id="facts">
+    <div class="depth-mark" data-mark>2,600 m</div>
+    <h2>Random Facts</h2>
+    <dl class="facts">
+      <dt>Species</dt><dd>chrysaora fuscescens</dd>
+      <dt>Common Name</dt><dd>pacific sea nettle, but you can call me <i>Orin Fenn</i></dd>
+      <dt>Habitat</dt><dd>the darkest recesses of mankind's hearts</dd>
+      <dt>Glow Color</dt><dd>peach</dd>
+      <dt>Diet</dt><dd>the hopes and dreams of children. jk. maybe.</dd>
+      <dt>Activity</dt><dd>nocturnal. fueled by encouragement and praise</dd>
+      <dt>Temperament</dt><dd>chill and willing to go out of my way to help a friend</dd>
+      <dt>Known Habits</dt><dd>putting my all into a project, then losing interest</dd>
+      <dt>Current Migration</dt><dd>characters that require you to be colorblind</dd>
+      <dt>Favorite Treasure</dt><dd>my aesthetic. seriously. i love it to a ridiculous degree.</dd>
+      <dt>Natural Predators</dt><dd>dominant black flags who leave little room for making my own choices</dd>
+      <dt>Companion Species</dt><dd>i'm a lone jellyfish (for now), but may find my bloom someday</dd>
+      <dt>Fun Fact</dt><dd>despite its long, maroon tentacles that can reach 12&ndash;15 feet, the chrysaora fuscescens' sting is irritating but rarely dangerous to humans</dd>
+      <dt class="warn">Warning</dt><dd class="warn">interact with caution. my creations sting.</dd>
+    </dl>
+  </section>
+
+  <img class="divider" src="img/divider.webp" alt="" width="1600" height="398" loading="lazy">
+
+  <section class="final" id="word">
+    <div class="depth-mark" data-mark>3,800 m</div>
+    <h2>A Final Word</h2>
+    <blockquote>
+      <p>&ldquo;trust the process of creation. go with the flow, as cliche as it is.&rdquo;</p>
+      <footer>Orin Fenn</footer>
+    </blockquote>
+  </section>
+
+</main>
+
+<footer class="wrap site-foot">
+  <div class="mark">Orin Fenn</div>
+  <p>Companions linked here are intended for adults, 18 and over.</p>
+  <p class="credit">Site made by Volara</p>
+</footer>
+
+<script>
+  (function () {
+    var out = document.getElementById('depth');
+    var MAX = 4000;
+    function fmt(n) { return Math.round(n / 10) * 10; }
+
+    function update() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var p = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
+      out.textContent = fmt(p * MAX).toLocaleString('en-US');
+    }
+
+    /* Section labels show the depth the gauge reads when that section reaches the top. */
+    function labels() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      if (h <= 0) return;
+      var marks = document.querySelectorAll('[data-mark]');
+      for (var i = 0; i < marks.length; i++) {
+        var top = marks[i].getBoundingClientRect().top + window.scrollY - 90;
+        var p = Math.min(1, Math.max(0, top / h));
+        marks[i].textContent = fmt(p * MAX).toLocaleString('en-US') + ' m';
+      }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { update(); labels(); });
+    window.addEventListener('load', labels);
+    update();
+    labels();
+
+    /* Copy the Discord handle. Falls back to selecting the text when the clipboard is blocked. */
+    var btn = document.getElementById('copy-handle');
+    var handle = document.getElementById('handle');
+    function flash(t) {
+      btn.textContent = t;
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
+    }
+    function pick() {
+      var r = document.createRange();
+      r.selectNodeContents(handle);
+      var s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+      flash('Selected');
+    }
+    btn.addEventListener('click', function () {
+      try {
+        navigator.clipboard.writeText('@orinfenn').then(function () { flash('Copied'); }, pick);
+      } catch (e) { pick(); }
+    });
+  })();
+</script>
+
+</body>
+</html>
